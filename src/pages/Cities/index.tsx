@@ -10,6 +10,7 @@ import type { ApiSource } from "../../ApiClient/ApiSource";
 import { API_CONFIG } from "../../ApiClient/ApiConfig";
 import { GetApiInstatnace } from "../../ApiClient/ApiClient";
 import Filters from "./Filters";
+import type { SortableKey } from "../../Types/SortableKey";
 
 const Cities = () => {
   const [currentApiSource, setCurrentApiSource] = useState<ApiSource>("New");
@@ -19,6 +20,11 @@ const Cities = () => {
 
   const [cityNameFilter, setCityNameFilter] = useState<string>("");
   const [countryFilter, setCountryFilter] = useState<string>("");
+
+  const [sortConfig, setSortConfig] = useState<{
+    key: SortableKey | null;
+    direction: "asc" | "desc";
+  }>({ key: null, direction: "asc" });
 
   useEffect(() => {
     const fetchCityData = async () => {
@@ -72,11 +78,57 @@ const Cities = () => {
     return currentData;
   }, [cityData, cityNameFilter, countryFilter]); // Re-calculates when data or filters change
 
+  const sortedData = useMemo(() => {
+    if (!filteredData) {
+      return null;
+    }
+
+    const sortableData = [...filteredData]; // Make a mutable copy
+
+    if (sortConfig.key !== null) {
+      sortableData.sort((a, b) => {
+        const aValue = a[sortConfig.key!];
+        const bValue = b[sortConfig.key!];
+
+        if (sortConfig.key === "lat" || sortConfig.key === "lng") {
+          // Numeric comparison
+          if (parseFloat(aValue) < parseFloat(bValue)) {
+            return sortConfig.direction === "asc" ? -1 : 1;
+          }
+          if (parseFloat(aValue) > parseFloat(bValue)) {
+            return sortConfig.direction === "asc" ? 1 : -1;
+          }
+        } else {
+          // String (locale) comparison
+          if (aValue.toLowerCase() < bValue.toLowerCase()) {
+            return sortConfig.direction === "asc" ? -1 : 1;
+          }
+          if (aValue.toLowerCase() > bValue.toLowerCase()) {
+            return sortConfig.direction === "asc" ? 1 : -1;
+          }
+        }
+        return 0; // values are equal
+      });
+    }
+
+    return sortableData;
+  }, [filteredData, sortConfig]);
+
   const toggleSource = () => {
     const newSource = currentApiSource === "Legacy" ? "New" : "Legacy";
     setCurrentApiSource(newSource);
   };
 
+  const handleOnSort = (key: SortableKey) => {
+    let direction: "asc" | "desc" = "asc";
+
+    // If clicking the same column, toggle direction
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    }
+
+    setSortConfig({ key, direction });
+  };
   return (
     <main className="p-1 shadow-xl gap-10 min-h-full border-2 border-solid rounded-2xl border-cyan-500">
       <PageHeader>City Data</PageHeader>
@@ -94,7 +146,13 @@ const Cities = () => {
       ></Filters>
       {fetchStatus === "Error" && <ErrorView />}
       {fetchStatus === "Loading" && <LoadingView />}
-      {fetchStatus === "Success" && <SuccessView data={filteredData} />}
+      {fetchStatus === "Success" && (
+        <SuccessView
+          data={sortedData}
+          sortConfig={sortConfig}
+          onSort={handleOnSort}
+        />
+      )}
     </main>
   );
 };

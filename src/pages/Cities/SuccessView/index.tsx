@@ -1,14 +1,18 @@
+import SortIcon from "../../../components/SortIcon";
 import type { City } from "../../../Types/City";
+import type { SortableKey } from "../../../Types/SortableKey";
 
 interface Props {
   data: City[] | null;
+  sortConfig: { key: SortableKey | null; direction: "asc" | "desc" };
+  onSort: (key: SortableKey) => void;
 }
 
-const SuccessView = ({ data }: Props) => {
+const SuccessView = ({ data, sortConfig, onSort }: Props) => {
   if (!Array.isArray(data) || data.length === 0) {
     return (
       <div className="text-center p-8 text-gray-500 bg-white rounded-xl shadow-lg mt-6">
-        No city data found for the selected source.
+        No city data found for the selected source. Try to swith the API Source.
       </div>
     );
   }
@@ -19,16 +23,56 @@ const SuccessView = ({ data }: Props) => {
         <thead className="bg-cyan-600">
           <tr>
             <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white">
-              Name
+              <button
+                type="button"
+                onClick={() => onSort("name")}
+                className="flex items-center group focus:outline-none"
+              >
+                Name
+                <SortIcon
+                  isSorted={sortConfig.key === "name"}
+                  direction={sortConfig.direction}
+                />
+              </button>
             </th>
             <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white">
-              Country
+              <button
+                type="button"
+                onClick={() => onSort("country")}
+                className="flex items-center group focus:outline-none"
+              >
+                Country
+                <SortIcon
+                  isSorted={sortConfig.key === "country"}
+                  direction={sortConfig.direction}
+                />
+              </button>
             </th>
             <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white">
-              Latitude (Lat)
+              <button
+                type="button"
+                onClick={() => onSort("lat")}
+                className="flex items-center group focus:outline-none"
+              >
+                Latitude (Lat)
+                <SortIcon
+                  isSorted={sortConfig.key === "lat"}
+                  direction={sortConfig.direction}
+                />
+              </button>
             </th>
             <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white">
-              Longitude (Lng)
+              <button
+                type="button"
+                onClick={() => onSort("lng")}
+                className="flex items-center group focus:outline-none"
+              >
+                Longitude (Lng)
+                <SortIcon
+                  isSorted={sortConfig.key === "lng"}
+                  direction={sortConfig.direction}
+                />
+              </button>
             </th>
           </tr>
         </thead>

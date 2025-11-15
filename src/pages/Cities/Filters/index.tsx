@@ -32,7 +32,7 @@ const Filters = ({
           id="cityFilter"
           value={cityFilterValue}
           onChange={(e) => onCityFilterChange(e.target.value)}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          className="mt-1 block w-full px-3 py-2 border border-cyan-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
           placeholder="e.g., Dubai"
         />
       </div>
@@ -48,7 +48,7 @@ const Filters = ({
           id="countryFilter"
           value={countryFilterValue}
           onChange={(e) => onCountryFilterChange(e.target.value)}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          className="mt-1 block w-full px-3 py-2 border border-cyan-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
           placeholder="e.g., AE"
         />
       </div>
