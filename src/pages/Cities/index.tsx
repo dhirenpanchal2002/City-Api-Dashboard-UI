@@ -134,7 +134,7 @@ const Cities: React.FC = () => {
     fetchStatus === "Success" && cityData && cityData.length > 0;
 
   return (
-    <main className="p-1 shadow-xl gap-10 min-h-full border-2 border-solid rounded-2xl border-cyan-500">
+    <main className="bg-white p-5 rounded-2xl shadow-xl border-t-4 border-cyan-500">
       <PageHeader>City Data</PageHeader>
       <ApiSourceHeader
         selectedApi={currentApiSource}

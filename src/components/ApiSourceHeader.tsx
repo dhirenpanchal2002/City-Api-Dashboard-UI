@@ -12,7 +12,7 @@ const ApiSourceHeader: React.FC<Props> = ({
   sourceChangeHandler,
 }) => {
   return (
-    <div className="mt-2 bg-white p-5 w-full border-cyan-200 border-2 rounded-xl">
+    <div className="mt-2 bg-white p-5 w-full border-cyan-500 border-2 rounded-xl">
       <div className="mt-2 flex flex-col sm:flex-row sm:items-center justify-between">
         <div className="text-lg font-medium">
           Data Source:

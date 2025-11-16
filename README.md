@@ -9,7 +9,7 @@ Ctrl + Shift + P
 
 # Command to run the app inside Dev Container
 
-npm run dev -- --host
+CHOKIDAR_USEPOLLING=true npm run dev -- --host
 
 # Command to build the production ready docker image
 
