@@ -1,13 +1,13 @@
 import { OctagonXIcon } from "lucide-react";
 
-const ErrorView = () => {
+const ErrorView: React.FC = () => {
   return (
     <>
-      <div className="flex flex-col rounded-2xl items-center justify-center border-2 border-solid border-red-700">
-        <OctagonXIcon color="red" size={96} />;
-        <div className="grow text-xl text-red-700 ">
-          Error has occured while loading the data. Please click Reload to
-          reload the page.
+      <div className="pt-10 flex flex-col rounded-2xl items-center justify-center border-2 border-solid border-cyan-500 bg-white">
+        <OctagonXIcon color="red" size={48} />
+        <div className="p-5 grow text-xl text-red-700 ">
+          Error has occured while loading the data. Please click Switch API to
+          get the data from alternative source.
         </div>
       </div>
     </>

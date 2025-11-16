@@ -12,7 +12,7 @@ import { GetApiInstatnace } from "../../ApiClient/ApiClient";
 import Filters from "./Filters";
 import type { SortableKey } from "../../Types/SortableKey";
 
-const Cities = () => {
+const Cities: React.FC = () => {
   const [currentApiSource, setCurrentApiSource] = useState<ApiSource>("New");
   const [cityData, setCityData] = useState<City[]>([]);
   const [fetchStatus, SetFetchStatus] = useState<FetchStatus>("Success");
@@ -34,7 +34,7 @@ const Cities = () => {
       console.log(api);
 
       await api
-        .get<City[]>("")
+        .get<City[]>("/data")
         .then((response) => {
           //setCityData(response.data);
           //console.log(Array.isArray(response.data));

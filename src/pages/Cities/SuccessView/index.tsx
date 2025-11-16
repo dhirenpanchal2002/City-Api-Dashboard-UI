@@ -8,7 +8,7 @@ interface Props {
   onSort: (key: SortableKey) => void;
 }
 
-const SuccessView = ({ data, sortConfig, onSort }: Props) => {
+const SuccessView: React.FC<Props> = ({ data, sortConfig, onSort }) => {
   if (!Array.isArray(data) || data.length === 0) {
     return (
       <div className="text-center p-8 text-gray-500 bg-white rounded-xl shadow-lg mt-6">
@@ -77,7 +77,7 @@ const SuccessView = ({ data, sortConfig, onSort }: Props) => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {data.map((city, index) => (
+          {data?.map((city, index) => (
             <tr
               key={city.name + index}
               className={

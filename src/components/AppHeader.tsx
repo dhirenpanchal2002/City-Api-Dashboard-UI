@@ -1,6 +1,6 @@
 import { Cloud } from "lucide-react";
 
-const AppHeader = () => {
+const AppHeader: React.FC = () => {
   return (
     <header className="bg-white p-5 rounded-2xl shadow-xl border-t-4 border-cyan-500">
       <h1 className="p-2 text-4xl font-bold text-gray-900 flex items-center">

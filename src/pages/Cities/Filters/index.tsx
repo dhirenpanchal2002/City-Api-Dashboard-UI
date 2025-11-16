@@ -7,19 +7,15 @@ interface Props {
   onCityFilterChange: (value: string) => void;
   onCountryFilterChange: (value: string) => void;
 }
-const Filters = ({
+const Filters: React.FC<Props> = ({
   viewStatus,
   cityFilterValue,
   countryFilterValue,
   onCityFilterChange,
   onCountryFilterChange,
-}: Props) => {
+}) => {
   return (
-    <div
-      className={`grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 ${
-        viewStatus !== "Success" ? "disabled:" : ""
-      }`}
-    >
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
       <div>
         <label
           htmlFor="cityFilter"
@@ -32,7 +28,9 @@ const Filters = ({
           id="cityFilter"
           value={cityFilterValue}
           onChange={(e) => onCityFilterChange(e.target.value)}
-          className="mt-1 block w-full px-3 py-2 border border-cyan-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
+          className={`mt-1 block w-full px-3 py-2 border border-cyan-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm ${
+            viewStatus === "Success" ? "" : "disabled:bg-gray-200"
+          }`}
           placeholder="e.g., Dubai"
         />
       </div>

@@ -3,7 +3,7 @@ interface Props {
   direction: "asc" | "desc";
 }
 
-const SortIcon = ({ isSorted, direction }: Props) => {
+const SortIcon: React.FC<Props> = ({ isSorted, direction }) => {
   if (!isSorted) {
     // "Unsorted" icon
     return (
