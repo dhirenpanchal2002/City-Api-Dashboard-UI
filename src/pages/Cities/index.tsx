@@ -92,18 +92,18 @@ const Cities: React.FC = () => {
 
         if (sortConfig.key === "lat" || sortConfig.key === "lng") {
           // Numeric comparison
-          if (parseFloat(aValue) < parseFloat(bValue)) {
+          if (parseFloat(String(aValue)) < parseFloat(String(bValue))) {
             return sortConfig.direction === "asc" ? -1 : 1;
           }
-          if (parseFloat(aValue) > parseFloat(bValue)) {
+          if (parseFloat(String(aValue)) > parseFloat(String(bValue))) {
             return sortConfig.direction === "asc" ? 1 : -1;
           }
         } else {
           // String (locale) comparison
-          if (aValue.toLowerCase() < bValue.toLowerCase()) {
+          if (String(aValue).toLowerCase() < String(bValue).toLowerCase()) {
             return sortConfig.direction === "asc" ? -1 : 1;
           }
-          if (aValue.toLowerCase() > bValue.toLowerCase()) {
+          if (String(aValue).toLowerCase() > String(bValue).toLowerCase()) {
             return sortConfig.direction === "asc" ? 1 : -1;
           }
         }
