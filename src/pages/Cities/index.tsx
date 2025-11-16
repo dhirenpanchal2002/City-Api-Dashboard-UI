@@ -129,6 +129,10 @@ const Cities: React.FC = () => {
 
     setSortConfig({ key, direction });
   };
+
+  const isFilterEnabled =
+    fetchStatus === "Success" && cityData && cityData.length > 0;
+
   return (
     <main className="p-1 shadow-xl gap-10 min-h-full border-2 border-solid rounded-2xl border-cyan-500">
       <PageHeader>City Data</PageHeader>
@@ -138,7 +142,7 @@ const Cities: React.FC = () => {
         sourceChangeHandler={toggleSource}
       ></ApiSourceHeader>
       <Filters
-        viewStatus={fetchStatus}
+        isEanbled={isFilterEnabled}
         cityFilterValue={cityNameFilter}
         countryFilterValue={countryFilter}
         onCityFilterChange={setCityNameFilter}

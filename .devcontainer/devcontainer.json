@@ -1,0 +1,23 @@
+{
+  "name": "City Dashboard UI Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "remoteUser": "root",
+  "features": {
+    "ghcr.io/devcontainers/features/node:2": {
+      "version": "24"
+    },
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "forwardPorts": [5173],
+  "postCreateCommand": "npm install",
+  "workspaceFolder": "/workspaces/City-Api-Dashboard-UI",
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspaces/City-Api-Dashboard-UI,type=bind,consistency=cached"
+  ],
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  }
+}
