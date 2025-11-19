@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, lazy } from "react";
+import { useEffect, useState } from "react";
 import ApiSourceHeader from "../../components/ApiSourceHeader";
 import PageHeader from "../../components/PageHeader";
 import ErrorView from "./ErrorView";
@@ -10,7 +11,11 @@ import type { ApiSource } from "../../ApiClient/ApiSource";
 import { API_CONFIG } from "../../ApiClient/ApiConfig";
 import { GetApiInstatnace } from "../../ApiClient/ApiClient";
 import Filters from "./Filters";
-import type { SortableKey } from "../../Types/SortableKey";
+import { useSortAndFilter } from "../../hooks/useSortAndFilter";
+import React from "react";
+
+// Implement Lazy Loding with React.Lazy method
+const LazySuccessView = React.lazy(() => import("./SuccessView"));
 
 const Cities: React.FC = () => {
   const [currentApiSource, setCurrentApiSource] = useState<ApiSource>("New");
@@ -18,13 +23,15 @@ const Cities: React.FC = () => {
   const [fetchStatus, SetFetchStatus] = useState<FetchStatus>("Success");
   const apiConfig = API_CONFIG[currentApiSource];
 
-  const [cityNameFilter, setCityNameFilter] = useState<string>("");
-  const [countryFilter, setCountryFilter] = useState<string>("");
-
-  const [sortConfig, setSortConfig] = useState<{
-    key: SortableKey | null;
-    direction: "asc" | "desc";
-  }>({ key: null, direction: "asc" });
+  const {
+    sortedData,
+    cityNameFilter,
+    setCityNameFilter,
+    countryFilter,
+    setCountryFilter,
+    sortConfig,
+    handleOnSort,
+  } = useSortAndFilter(cityData);
 
   useEffect(() => {
     const fetchCityData = async () => {
@@ -46,9 +53,8 @@ const Cities: React.FC = () => {
 
           SetFetchStatus("Success");
         })
-        .catch((error) => {
-          console.error(`Axios Error for ${currentApiSource}:`, error);
-          //throw new Error(error.message || `API call failed with status ${error.response?.status}`);
+        .catch(() => {
+          //console.error(`Axios Error for ${currentApiSource}:`, error);
           SetFetchStatus("Error");
         });
     };
@@ -56,78 +62,11 @@ const Cities: React.FC = () => {
     fetchCityData();
   }, [currentApiSource]);
 
-  const filteredData = useMemo(() => {
-    if (!cityData || !Array.isArray(cityData)) {
-      return null;
-    }
-
-    let currentData = [...cityData];
-
-    if (cityNameFilter) {
-      currentData = currentData.filter((city) =>
-        city.name.toLowerCase().includes(cityNameFilter.toLowerCase())
-      );
-    }
-
-    if (countryFilter) {
-      currentData = currentData.filter((city) =>
-        city.country.toLowerCase().includes(countryFilter.toLowerCase())
-      );
-    }
-
-    return currentData;
-  }, [cityData, cityNameFilter, countryFilter]); // Re-calculates when data or filters change
-
-  const sortedData = useMemo(() => {
-    if (!filteredData) {
-      return null;
-    }
-
-    const sortableData = [...filteredData]; // Make a mutable copy
-
-    if (sortConfig.key !== null) {
-      sortableData.sort((a, b) => {
-        const aValue = a[sortConfig.key!];
-        const bValue = b[sortConfig.key!];
-
-        if (sortConfig.key === "lat" || sortConfig.key === "lng") {
-          // Numeric comparison
-          if (parseFloat(String(aValue)) < parseFloat(String(bValue))) {
-            return sortConfig.direction === "asc" ? -1 : 1;
-          }
-          if (parseFloat(String(aValue)) > parseFloat(String(bValue))) {
-            return sortConfig.direction === "asc" ? 1 : -1;
-          }
-        } else {
-          // String (locale) comparison
-          if (String(aValue).toLowerCase() < String(bValue).toLowerCase()) {
-            return sortConfig.direction === "asc" ? -1 : 1;
-          }
-          if (String(aValue).toLowerCase() > String(bValue).toLowerCase()) {
-            return sortConfig.direction === "asc" ? 1 : -1;
-          }
-        }
-        return 0; // values are equal
-      });
-    }
-
-    return sortableData;
-  }, [filteredData, sortConfig]);
+  // 2. Integration: Using the Custom Hook
 
   const toggleSource = () => {
     const newSource = currentApiSource === "Legacy" ? "New" : "Legacy";
     setCurrentApiSource(newSource);
-  };
-
-  const handleOnSort = (key: SortableKey) => {
-    let direction: "asc" | "desc" = "asc";
-
-    // If clicking the same column, toggle direction
-    if (sortConfig.key === key && sortConfig.direction === "asc") {
-      direction = "desc";
-    }
-
-    setSortConfig({ key, direction });
   };
 
   const isFilterEnabled =
@@ -151,11 +90,21 @@ const Cities: React.FC = () => {
       {fetchStatus === "Error" && <ErrorView />}
       {fetchStatus === "Loading" && <LoadingView />}
       {fetchStatus === "Success" && (
-        <SuccessView
-          data={sortedData}
-          sortConfig={sortConfig}
-          onSort={handleOnSort}
-        />
+        <Suspense
+          fallback={
+            <div className="text-center py-8 text-sm text-gray-500">
+              Loading data table...
+            </div>
+          }
+        >
+          {
+            <LazySuccessView
+              data={sortedData}
+              sortConfig={sortConfig}
+              onSort={handleOnSort}
+            />
+          }
+        </Suspense>
       )}
     </main>
   );

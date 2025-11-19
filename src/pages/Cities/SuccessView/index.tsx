@@ -12,13 +12,14 @@ const SuccessView: React.FC<Props> = ({ data, sortConfig, onSort }) => {
   if (!Array.isArray(data) || data.length === 0) {
     return (
       <div className="text-center p-8 text-gray-500 bg-white rounded-xl shadow-lg mt-6">
-        No city data found for the selected source. Try to swith the API Source.
+        No city data found for the selected source and filter values. Try to
+        switch the API Source.
       </div>
     );
   }
 
   return (
-    <div className="mt-2 overflow-x-auto overflow-y-auto max-h-screen shadow-xl rounded-xl">
+    <div className="mt-2 overflow-x-auto overflow-y-auto max-h-[50vh] shadow-xl rounded-xl">
       <table className="min-w-full divide-y divide-cyan-200">
         <thead className="bg-cyan-600">
           <tr>
