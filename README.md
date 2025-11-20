@@ -1,20 +1,97 @@
-# City-Api-Dashboard-UI
+City API Dashboard UI
 
-API dashboard for city data using React 19 with TypeScript and Tailwind
+A modern, responsive data dashboard built to visualize and compare city data from multiple API sources. This project leverages React 19, TypeScript, and Tailwind CSS, featuring a robust production-ready setup with Docker and Dev Containers.
 
-# How to open the code inside Dev Container
+🚀 Features & Tech Stack
 
-Ctrl + Shift + P
--> Dev Containers: Reopen with Dev Container
+Core Framework
 
-# Command to run the app inside Dev Container
+React 19: Utilizes the latest React features for optimal rendering and state management.
+
+TypeScript: Ensures type safety and developer productivity with strict typing for API responses and components.
+
+Tailwind CSS: Implements a utility-first, responsive design system.
+
+Architecture & Logic
+
+Custom Hooks: Logic is decoupled from UI components (e.g., filtering, sorting, and data fetching hooks) to ensure reusability and testability.
+
+Component Segregation: The UI is broken down into atomic, reusable components (e.g., Data Tables, Source Badges, Status Bars) for maintainability.
+
+Axios: robust HTTP client used for handling API requests with interceptor and error handling capabilities.
+
+Quality Assurance
+
+Jest & React Testing Library: Comprehensive unit testing setup for ensuring component reliability and logic correctness.
+
+DevOps & Infrastructure
+
+Dev Containers: A fully containerized development environment ensures consistency across different developer machines (VS Code integration).
+
+Dockerized Production: Includes a multi-stage Dockerfile for building optimized, production-ready Nginx container images.
+
+🛠️ Development Workflow (Dev Containers)
+
+This project is configured to run inside a VS Code Dev Container. This ensures that all dependencies (Node.js, extensions, tools) are pre-installed and consistent.
+
+Prerequisites
+
+Install Docker Desktop.
+
+Install Visual Studio Code.
+
+Install the Dev Containers extension for VS Code.
+
+1. Open the Project
+
+To start the development environment:
+
+Open the project folder in VS Code.
+
+Open the Command Palette (Ctrl + Shift + P).
+
+Run the following command:
+
+Dev Containers: Reopen in Container
+
+2. Run the Application
+
+Once inside the container, start the development server. We use polling to ensure file changes inside the Docker container are reflected instantly in the browser.
 
 CHOKIDAR_USEPOLLING=true npm run dev -- --host
 
-# Command to build the production ready docker image
+Note: The --host flag exposes the app to your local network/browser, and CHOKIDAR_USEPOLLING=true fixes hot-reload issues common in Docker/WSL environments.
+
+3. Run Unit Tests
+
+Execute the Jest test suite to verify application logic:
+
+npm test
+
+🐳 Production Deployment
+
+The project includes a Dockerfile optimized for production deployment (likely using Nginx to serve static assets).
+
+1. Build the Docker Image
+
+Run the following command in your terminal (outside the Dev Container, or inside if Docker-in-Docker is enabled):
 
 docker build -t city-api-dashboard-ui:latest .
 
-# Command to Run the production ready image
+2. Run the Container
+
+Start the production container mapping port 8080 on your host to port 80 in the container:
 
 docker run --rm -p 8080:80 --name city-api-dashboard-ui city-api-dashboard-ui:latest
+
+Access the production build at http://localhost:8080.
+
+📂 Project Structure
+
+src/
+├── components/ # Reusable UI components (Table, Badges, etc.)
+├── hooks/ # Custom hooks (useSortAndFilter, useFetchData)
+├── types/ # TypeScript interfaces (City, APIResponse)
+├── ApiClient/ # Axios configuration and API calls
+├── App.tsx # Main application entry
+└── main.tsx # React DOM rendering
