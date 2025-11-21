@@ -1,3 +1,5 @@
+import React from "react";
+
 interface Props {
   isEanbled: boolean;
   cityFilterValue: string;
@@ -60,4 +62,4 @@ const Filters: React.FC<Props> = ({
   );
 };
 
-export default Filters;
+export default React.memo(Filters);

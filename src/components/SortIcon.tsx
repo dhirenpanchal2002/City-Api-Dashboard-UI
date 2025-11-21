@@ -1,3 +1,5 @@
+import React from "react";
+
 interface Props {
   isSorted: boolean;
   direction: "asc" | "desc";
@@ -58,4 +60,4 @@ const SortIcon: React.FC<Props> = ({ isSorted, direction }) => {
   );
 };
 
-export default SortIcon;
+export default React.memo(SortIcon);

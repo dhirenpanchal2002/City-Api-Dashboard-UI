@@ -1,3 +1,5 @@
+import React from "react";
+
 interface Props {
   children?: React.ReactNode;
 }
@@ -12,4 +14,4 @@ const PageHeader: React.FC<Props> = ({ children }) => {
   );
 };
 
-export default PageHeader;
+export default React.memo(PageHeader);

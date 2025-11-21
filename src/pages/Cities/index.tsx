@@ -1,11 +1,10 @@
-import { Suspense, lazy } from "react";
+import { Suspense } from "react";
 import { useEffect, useState } from "react";
 import ApiSourceHeader from "../../components/ApiSourceHeader";
 import PageHeader from "../../components/PageHeader";
 import ErrorView from "./ErrorView";
 import LoadingView from "./LoadingView";
 import type { FetchStatus } from "../../Types/FetchStatus";
-import SuccessView from "./SuccessView";
 import type { City } from "../../Types/City";
 import type { ApiSource } from "../../ApiClient/ApiSource";
 import { API_CONFIG } from "../../ApiClient/ApiConfig";
@@ -38,7 +37,7 @@ const Cities: React.FC = () => {
       SetFetchStatus("Loading");
 
       const api = GetApiInstatnace(currentApiSource);
-      console.log(api);
+      //console.log(api);
 
       await api
         .get<City[]>("/data")
@@ -62,12 +61,10 @@ const Cities: React.FC = () => {
     fetchCityData();
   }, [currentApiSource]);
 
-  // 2. Integration: Using the Custom Hook
-
-  const toggleSource = () => {
+  const cachedToggleSource = React.useCallback(() => {
     const newSource = currentApiSource === "Legacy" ? "New" : "Legacy";
     setCurrentApiSource(newSource);
-  };
+  }, [currentApiSource]);
 
   const isFilterEnabled =
     fetchStatus === "Success" && cityData && cityData.length > 0;
@@ -78,7 +75,7 @@ const Cities: React.FC = () => {
       <ApiSourceHeader
         selectedApi={currentApiSource}
         ApirUrl={apiConfig.url}
-        sourceChangeHandler={toggleSource}
+        sourceChangeHandler={cachedToggleSource}
       ></ApiSourceHeader>
       <Filters
         isEanbled={isFilterEnabled}

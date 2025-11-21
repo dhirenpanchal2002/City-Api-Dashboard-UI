@@ -1,3 +1,4 @@
+import React from "react";
 import type { ApiSource } from "../ApiClient/ApiSource";
 
 interface Props {
@@ -43,4 +44,4 @@ const ApiSourceHeader: React.FC<Props> = ({
   );
 };
 
-export default ApiSourceHeader;
+export default React.memo(ApiSourceHeader);
