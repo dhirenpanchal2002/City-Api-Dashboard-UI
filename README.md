@@ -7,15 +7,16 @@ A modern, responsive data dashboard built to visualize and compare city data fro
 **🚀 Features & Tech Stack**
 
 **Core Framework**
-- **React 19**: Utilizes the latest React features for optimal rendering and state management.
-- **TypeScript**: Ensures type safety and developer productivity with strict typing for API responses and components.
-- **Tailwind CSS**: Implements a utility-first, responsive design system.
+- **React 19**: The latest React library for optimal rendering and state management.
+- **TypeScript**: To ensure type safety with strict typing for API responses and components.
+- **Tailwind CSS**: For a utility-first, responsive design system.
 
 **Architecture & Logic**
 - **Custom Hooks**: Logic is decoupled from UI components (e.g., filtering, sorting, and data fetching hooks) to ensure reusability and testability.
 - **Component Segregation**: The UI is broken down into atomic, reusable components (e.g., Data Tables, Source Badges, Status Bars) for maintainability.
 - **Axios**: Robust HTTP client used for handling API requests with interceptors and error handling capabilities.
 - **Code Spliting**: Implemented client-side code splitting using React Lazy and Suspense for improved load times.
+- **URL Sync**: To improves the user experience by synchronizing UI with the browser URL 
 
 **Quality Assurance**
 - **Jest & React Testing Library**: Comprehensive unit testing setup for ensuring component reliability and logic correctness.
