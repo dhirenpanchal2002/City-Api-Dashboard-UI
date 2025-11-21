@@ -12,12 +12,15 @@ import { GetApiInstatnace } from "../../ApiClient/ApiClient";
 import Filters from "./Filters";
 import { useSortAndFilter } from "../../hooks/useSortAndFilter";
 import React from "react";
+import { useSearchParams } from "react-router";
 
 // Implement Lazy Loding with React.Lazy method
 const LazySuccessView = React.lazy(() => import("./SuccessView"));
 
 const Cities: React.FC = () => {
-  const [currentApiSource, setCurrentApiSource] = useState<ApiSource>("New");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentApiSource = (searchParams.get('source') as ApiSource) || 'Legacy';
+  
   const [cityData, setCityData] = useState<City[]>([]);
   const [fetchStatus, SetFetchStatus] = useState<FetchStatus>("Success");
   const apiConfig = API_CONFIG[currentApiSource];
@@ -65,10 +68,17 @@ const Cities: React.FC = () => {
 
   }, [currentApiSource]);
 
-  const cachedToggleSource = React.useCallback(() => {
-    const newSource = currentApiSource === "Legacy" ? "New" : "Legacy";
-    setCurrentApiSource(newSource);
-  }, [currentApiSource]);
+
+
+  // Helper to switch sources (updates URL)
+  const switchSource = () => {
+    setSearchParams((prev) => {
+      const toggleSource: ApiSource = currentApiSource === 'Legacy' ? 'New' : 'Legacy';
+      const newParams = new URLSearchParams(prev);
+      newParams.set('source', toggleSource);
+      return newParams;
+    });
+  };
 
   const isFilterEnabled =
     fetchStatus === "Success" && cityData && cityData.length > 0;
@@ -79,7 +89,7 @@ const Cities: React.FC = () => {
       <ApiSourceHeader
         selectedApi={currentApiSource}
         ApirUrl={apiConfig.url}
-        sourceChangeHandler={cachedToggleSource}
+        sourceChangeHandler={switchSource}
       ></ApiSourceHeader>
       <Filters
         isEanbled={isFilterEnabled}
