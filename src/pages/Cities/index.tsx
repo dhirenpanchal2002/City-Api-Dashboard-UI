@@ -33,25 +33,24 @@ const Cities: React.FC = () => {
   } = useSortAndFilter(cityData);
 
   useEffect(() => {
+    let isOpeerationActive = true;
+
     const fetchCityData = async () => {
       SetFetchStatus("Loading");
 
       const api = GetApiInstatnace(currentApiSource);
       //console.log(api);
-
       await api
         .get<City[]>("/data")
-        .then((response) => {
-          //setCityData(response.data);
-          //console.log(Array.isArray(response.data));
-          //console.log(response.data);
-          setCityData(response.data);
-
-          setCityNameFilter(""); // Reset filters
-          setCountryFilter(""); // Reset filters
-
-          SetFetchStatus("Success");
-        })
+        .then((response) => {          
+                if(isOpeerationActive)
+                {
+                  setCityData(response.data);
+                  setCityNameFilter(""); // Reset filters
+                  setCountryFilter(""); // Reset filters
+                  SetFetchStatus("Success");
+                }
+              })
         .catch(() => {
           //console.error(`Axios Error for ${currentApiSource}:`, error);
           SetFetchStatus("Error");
@@ -59,6 +58,11 @@ const Cities: React.FC = () => {
     };
 
     fetchCityData();
+    
+    return () => {
+       isOpeerationActive = false;
+    }
+
   }, [currentApiSource]);
 
   const cachedToggleSource = React.useCallback(() => {

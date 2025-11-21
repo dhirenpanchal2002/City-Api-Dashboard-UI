@@ -2,8 +2,7 @@ import axios, { type AxiosInstance } from "axios";
 import type { ApiSource } from "./ApiSource";
 import { API_CONFIG } from "./ApiConfig";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const instanceCache: Record<ApiSource, AxiosInstance> = {} as any;
+const instanceCache: Record<ApiSource, AxiosInstance> = {} as unknown as Record<ApiSource, AxiosInstance>;
 
 export const GetApiInstatnace = (source: ApiSource): AxiosInstance => {
   if (!instanceCache[source]) {

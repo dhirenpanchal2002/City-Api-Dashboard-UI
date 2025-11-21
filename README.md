@@ -6,7 +6,7 @@ A modern, responsive data dashboard built to visualize and compare city data fro
 
 Core Framework
 
-React 19: Utilizes the latest React features for optimal rendering and state management.
+React 19: Utilizes the latest stable React library for optimal rendering and state management.
 
 TypeScript: Ensures type safety and developer productivity with strict typing for API responses and components.
 
