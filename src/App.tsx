@@ -9,6 +9,7 @@ function App() {
         <AppHeader />
         <BrowserRouter>
           <Routes>
+            <Route path="/" element={<Cities />} />
             <Route path="/api/data" element={<Cities />} />
           </Routes>
         </BrowserRouter>

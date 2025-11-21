@@ -8,6 +8,6 @@ export const API_CONFIG: Record<ApiSource, { url: string; label: string }> = {
   },
   New: {
     url: 'http://localhost:3001/api/new',
-    label: 'New API',
+    label: 'New API (Default)',
   },
 };

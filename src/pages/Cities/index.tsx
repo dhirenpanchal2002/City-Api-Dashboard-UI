@@ -19,7 +19,16 @@ const LazySuccessView = React.lazy(() => import("./SuccessView"));
 
 const Cities: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentApiSource = (searchParams.get('source') as ApiSource) || 'Legacy';
+  
+  function GetApiSource():ApiSource  {
+    const sourceVal = searchParams.get('source');
+    if(sourceVal === 'Legacy' || sourceVal === 'New') {
+      return sourceVal as ApiSource;
+    }
+    //default value
+    return 'New' as ApiSource;
+  }
+  const currentApiSource = GetApiSource();
   
   const [cityData, setCityData] = useState<City[]>([]);
   const [fetchStatus, SetFetchStatus] = useState<FetchStatus>("Success");
